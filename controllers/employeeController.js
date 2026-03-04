@@ -103,10 +103,10 @@ const updateEmployee = (req,res)=>{
         email,
         department,
         position,
-        salary,
-        hireDate,
-        phone,
-        status
+        salary: salary || 0,
+        hireDate: hireDate || new Date().toISOString().split('T')[0],
+        phone: phone || '',
+        status: status || 'active',
     }
     employees[employeeIndex] = updatedEmployee
 
@@ -115,9 +115,6 @@ const updateEmployee = (req,res)=>{
         message:`Employee ${employees.firstName} ${employees.lastName} successfully updated`,
         data:updatedEmployee
     })
-
-
-
 
 
 };
