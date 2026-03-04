@@ -83,8 +83,68 @@ const createEmployee = (req, res) => {
     });
 };
 
+const updateEmployee = (req,res)=>{
+
+    const {id} = req.params
+
+    const {firstName,lastName,email,department,position,salary,hireDate,phone,status} = req.body
+    const employeeIndex = employees.findIndex((emp)=>{return emp.id === id})
+
+    if(employeeIndex === -1){
+         return res.status(404).json({
+            success: false,
+            message:"Employee not found"
+        })
+    }
+    const updatedEmployee = {
+        ...employees[employeeIndex],
+        firstName,
+        lastName,
+        email,
+        department,
+        position,
+        salary,
+        hireDate,
+        phone,
+        status
+    }
+    employees[employeeIndex] = updatedEmployee
+
+    res.status(200).json({
+        success:true,
+        message:`Employee ${employees.firstName} ${employees.lastName} successfully updated`,
+        data:updatedEmployee
+    })
+
+
+
+
+
+};
+const deleteEmployee = (req,res)=>{
+    const {id} = req.params
+
+    const employeeIndex = employees.findIndex((emp)=>{return emp.id === id});
+
+    if(employeeIndex === -1){
+        return res.status(404).json({
+            success: false,
+            message:"Employee not found"
+        })
+    }
+
+    const removeEmployee = employees.splice(employeeIndex,1)[0];
+    res.status(200).json({
+        success:true,
+        message:`Employee "${removeEmployee.firstName} ${removeEmployee.lastName} deleted sucessfully`,
+        data:removeEmployee
+    })
+}
+
 module.exports = {
     getAllEmployees,
     createEmployee,
+    deleteEmployee,
+    updateEmployee
     // getEmployeeById,
 };
